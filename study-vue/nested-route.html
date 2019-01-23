@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <router-link to="/user/foo">user/foo</router-link>
+    <router-link to="/user/foo/profile">user/foo/profile</router-link>
+    <router-link to="/user/foo/Post">user/foo/post</router-link>
+
+    <router-view></router-view>
+  </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.22/vue.min.js"></script>
+    <script src="https://unpkg.com/vue-router@2.0.0/dist/vue-router.js"></script>
+    <script>
+      const user = {
+        template: `<div>
+          <h2>{{ $route.params.id }}</h2>
+          // 중첩 라우팅 뷰
+          <router-view></router-view>
+        </div>`
+      };
+
+      const home = { template: '<p>hone</p>'};
+      const profile = { template: '<p>profile</p>'};
+      const post = { template: '<p>post</p>'};
+
+      const routes = [
+        {
+          path: '/user/:id',
+          component: user,
+          // 중첩 라우팅 정의
+          children: [
+            {
+              path: '',
+              component: home
+            },
+            {
+              path: 'profile',
+              component: profile
+            },
+            {
+              path: 'post',
+              component: post
+            }
+          ]
+        }
+      ];
+
+      const router = new VueRouter({
+        routes
+      });
+
+      new Vue({
+        router
+      }).$mount('#app');
+
+    </script>
+</body>
+</html>
